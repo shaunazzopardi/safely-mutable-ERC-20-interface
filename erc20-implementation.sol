@@ -1,4 +1,5 @@
 //FROM: https://theethereum.wiki/w/index.php/ERC20_Token_Standard
+//EDITED: Shaun Azzopardi, July 2018
 
 pragma solidity ^0.4.24;
 
