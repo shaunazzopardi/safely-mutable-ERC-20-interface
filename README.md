@@ -5,7 +5,7 @@ An interface for an ERC-20 token smart contract that enforces the expected behav
 
 2. *clean-erc20-implementation.sol* - is an implementation of an ERC-20 token reproduced from [here](https://theethereum.wiki/w/index.php/ERC20_Token_Standard). 
 
-3. *erc20-implementation.sol* - is an adaption of implementation of *clean-erc20-implementation.sol* to be used with erc20-interface.sol, note how some methods (e.g. transfer) have an added argument so that the original caller's address can be passed on from the interface. Note how this has the effect of leaving the implementation uncompliant with the ERC-20 standard, but compliance is restored through the interface. 
+3. *erc20-implementation.sol* - is an adaption of implementation of *clean-erc20-implementation.sol* to be used with *erc20-interface.sol*, note how some methods (e.g. transfer) have an added argument so that the original caller's address can be passed on from the interface. Note how this has the effect of leaving the implementation uncompliant with the ERC-20 standard, but compliance is restored through the interface. 
 
 4. *erc20-behavioual-specification.dea* - is a specification of the expected behaviour of an implementation of the ERC-20 standard. This goes beyond the simple specification of an API, but, e.g., specifies when a transfer should be successful or not and what effect it should have. This respects the informal definition given in the standard's description, see [here](https://theethereum.wiki/w/index.php/ERC20_Token_Standard). Moreover, the specification used here is specified in a specification language used by the runtime verification tool [contractLARVA](https://github.com/gordonpace/contractLarva).
 
