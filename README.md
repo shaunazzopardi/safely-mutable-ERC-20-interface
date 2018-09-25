@@ -1,5 +1,5 @@
 # safely-mutable-ERC-20-interface
-An interface for an ERC-20 token smart contract that enforces the expected behaviour of each entry-point.
+An interface for an ERC-20 token smart contract that enforces the expected behaviour of each entry-point. Used as a case study for a tutorial on monitoring smart contracts for the Conference on Runtime Verification 2018, read paper [here](https://www.researchgate.net/publication/327834131_Monitoring_Smart_Contracts_ContractLarva_and_Open_Challenges_Beyond).
 
 1. *erc20-interface.sol* - is a vanilla interface for an ERC-20 token, using a hub-spoke (or proxy) pattern that allows the implementation to be updated post-deployment (through calls).
 
