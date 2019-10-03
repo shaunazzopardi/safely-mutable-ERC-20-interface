@@ -26,6 +26,11 @@ contract LARVA_ERC20Interface {
     if ((LARVA_STATE_3 == 0)) {
       LARVA_STATE_3 = 1;
     } else {
+      if ((LARVA_STATE_3 == 1)) {
+        LARVA_STATE_3 = 2;
+        LARVA_reparation();
+      } else {
+      }
     }
     _;
   }
@@ -59,6 +64,11 @@ contract LARVA_ERC20Interface {
         preAllowance = allowance(msg.sender, from);
       }
     } else {
+      if ((LARVA_STATE_2 == 1)) {
+        LARVA_STATE_2 = 2;
+        LARVA_reparation();
+      } else {
+      }
     }
     _;
   }
@@ -91,14 +101,17 @@ contract LARVA_ERC20Interface {
         transferPreTo = balanceOf(to);
       }
     } else {
+      if ((LARVA_STATE_1 == 1)) {
+        LARVA_STATE_1 = 2;
+        LARVA_reparation();
+      } else {
+      }
     }
     _;
   }
   int8 LARVA_STATE_1 = 0;
   int8 LARVA_STATE_2 = 0;
   int8 LARVA_STATE_3 = 0;
-  function LARVA_ERC20Interface () public {
-  }
   function LARVA_reparation () private {
     revert();
   }
@@ -109,25 +122,20 @@ contract LARVA_ERC20Interface {
   uint transferFromPreFrom;
   uint transferFromPreTo;
   uint preAllowance;
-  enum LARVA_STATUS {NOT_STARTED, READY, RUNNING, STOPPED}
-  LARVA_STATUS private LARVA_Status = LARVA_STATUS.RUNNING;
-  function LARVA_EnableContract () private {
-    LARVA_Status = (LARVA_Status == LARVA_STATUS.NOT_STARTED)?LARVA_STATUS.READY:LARVA_STATUS.RUNNING;
+  LARVA_STATUS private LARVA_Status = LARVA_STATUS.ENABLED;
+  enum LARVA_STATUS {ENABLED, DISABLED}
+  function LARVA_EnableContract () LARVA_ContractIsEnabled private {
+    LARVA_Status = LARVA_STATUS.ENABLED;
   }
-  function LARVA_DisableContract () private {
-    LARVA_Status = (LARVA_Status == LARVA_STATUS.READY)?LARVA_STATUS.NOT_STARTED:LARVA_STATUS.STOPPED;
+  function LARVA_DisableContract () LARVA_ContractIsEnabled private {
+    LARVA_Status = LARVA_STATUS.DISABLED;
   }
   modifier LARVA_ContractIsEnabled {
-    require(LARVA_Status == LARVA_STATUS.RUNNING);
+    require(LARVA_Status == LARVA_STATUS.ENABLED);
     _;
   }
-  modifier LARVA_Constructor {
-    require(LARVA_Status == LARVA_STATUS.READY);
-    LARVA_Status = LARVA_STATUS.RUNNING;
-    _;
-  }
-  ERC20TokenImplementation impl = ERC20TokenImplementation(0x11F0c46Dc617619D51Aa60E02dACa7608DC714e7);
-  address owner = 0xCA35b7d915458EF540aDe6068dFe2F44E8fa733c;
+  ERC20TokenImplementation impl = ERC20TokenImplementation(0xE176bCd71ce7C8D2719c495c77947f69e0dD6E1D);
+  address owner = 0xbCc06bC992FcfB190Ca24D83Ece05786c371b0aB;
   function updateImplementation (address newImpl) LARVA_ContractIsEnabled public {
     require(msg.sender == owner);
     impl = ERC20TokenImplementation(newImpl);
@@ -150,8 +158,5 @@ contract LARVA_ERC20Interface {
   function transferFrom (address from, address to, uint tokens) LARVA_DEA_2_handle_after_transferFrom__parameters_from_to_tokens(from, to, tokens) LARVA_DEA_2_handle_before_transferFrom__parameters_from_to_tokens(from, to, tokens) LARVA_ContractIsEnabled public returns (bool success) {
     return impl.transferFrom(msg.sender, from, to, tokens);
   }
-  
-  event Transfer(address indexed from, address indexed to, uint tokens);
-  event Approval(address indexed tokenOwner, address indexed spender, uint tokens);
 
 }

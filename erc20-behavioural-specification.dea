@@ -27,8 +27,12 @@ monitor ERC20Interface{
 		}
 		
 		transitions {
+		
+			
 			Before -[before(transfer(to, tokens)) | ~> {transferPreFrom = balanceOf(msg.sender); transferPreTo = balanceOf(to);}]-> After;	
 
+			After -[before(transfer(to, tokens))]-> Bad;
+			
 			After -[after(transfer(to, tokens)) | transferPreFrom < tokens && (balanceOf(msg.sender) != transferPreFrom || balanceOf(to) != transferPreTo)]-> Bad;
 
 			After -[after(transfer(to, tokens)) | transferPreFrom < tokens && (balanceOf(msg.sender) == transferPreFrom && balanceOf(to) == transferPreTo)]-> Before;
@@ -49,6 +53,8 @@ monitor ERC20Interface{
 		transitions {
 			Before -[before(transferFrom(from, to, tokens)) | ~> {transferFromPreFrom = balanceOf(from); transferFromPreTo = balanceOf(to); preAllowance = allowance(msg.sender, from);}]-> After;	
 
+			After -[before(transferFrom(from, to, tokens))]-> Bad;
+			
 			After -[after(transferFrom(from, to, tokens)) | (transferFromPreFrom < tokens || preAllowance < tokens) && (balanceOf(msg.sender) != transferFromPreFrom || balanceOf(to) != transferFromPreTo || allowance(msg.sender, from) != preAllowance)]-> Bad;	
 
 			After -[after(transferFrom(from, to, tokens)) | (transferFromPreFrom < tokens || preAllowance < tokens) && (balanceOf(msg.sender) == transferFromPreFrom && balanceOf(to) == transferFromPreTo && allowance(msg.sender, from) == preAllowance)]-> Before;	
@@ -69,6 +75,8 @@ monitor ERC20Interface{
 		
 		transitions {	
 			Before -[before(approve(spender, tokens))]-> After;	
+			
+			After -[before(approve(spender, tokens))]-> Bad;
 
 			After -[after(approve(spender, tokens)) | allowance(msg.sender, spender) == tokens]-> Before;	
 
